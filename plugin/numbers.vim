@@ -38,10 +38,10 @@ function! NumbersEnable()
         au!
         autocmd InsertEnter * set number
         autocmd InsertLeave * set relativenumber
-        autocmd BufNewFile  * set number
-        autocmd BufReadPost * set number
+        autocmd BufNewFile  * set relativenumber
+        autocmd BufReadPost * set relativenumber
         autocmd WinLeave    * call UnsetNumbers()
-        autocmd WinEnter    * set number
+        autocmd WinEnter    * set relativenumber
     augroup END
     set number
 endfunc
