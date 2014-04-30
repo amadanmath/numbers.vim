@@ -15,7 +15,7 @@
 " :help numbers
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let s:numbers_version = '0.2.0'
+let s:numbers_version = '0.3.0'
 
 "Allow use of line continuation
 let s:save_cpo = &cpo
@@ -36,14 +36,14 @@ function! NumbersEnable()
     let g:enable_numbers = 1
     augroup NumbersAug
         au!
-        autocmd InsertEnter * set number
-        autocmd InsertLeave * set relativenumber
-        autocmd BufNewFile  * set relativenumber
-        autocmd BufReadPost * set relativenumber
-        autocmd WinLeave    * call UnsetNumbers()
-        autocmd WinEnter    * set relativenumber
+        " autocmd InsertEnter * set number
+        " autocmd InsertLeave * set relativenumber
+        autocmd BufNewFile  * set number relativenumber
+        autocmd BufReadPost * set number relativenumber
+        autocmd WinEnter    * set number relativenumber
+        autocmd WinLeave    * set nonumber norelativenumber
     augroup END
-    set number
+    set number relativenumber
 endfunc
 
 function! NumbersDisable()
@@ -51,17 +51,24 @@ function! NumbersDisable()
     augroup NumbersAug
         au!
     augroup END
-    call UnsetNumbers()
+    set nonumber norelativenumber
 endfunc
 
+function! NumbersToggle()
+    if g:enable_numbers == 1
+        call NumbersDisable()
+    else
+        call NumbersEnable()
+    endif
+endfunction
+
 function! UnsetNumbers()
-    set nonumber
-    set norelativenumber
 endfunction
 
 " Commands
 command! -nargs=0 NumbersEnable call NumbersEnable()
 command! -nargs=0 NumbersDisable call NumbersDisable()
+command! -nargs=0 NumbersToggle call NumbersToggle()
 
 " reset &cpo back to users setting
 let &cpo = s:save_cpo
